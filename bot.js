@@ -5,6 +5,8 @@ const fs = require('fs');
 const got = require('got');
 const jsdom = require("jsdom");
 const schedule = require("node-schedule");
+const fetch = require("node-fetch-commonjs");
+
 const { JSDOM } = jsdom;
 let dom;
 const vgmUrl= 'http://www.bolyaigimnazium.elte.hu/index.php/szuloknek/program3/month.calendar';
@@ -24,7 +26,7 @@ got(vgmUrl).then(response => {
 
 client.on('message', gotMessage);
 
-function gotMessage(msg) {
+async function gotMessage(msg) {
     if (msg.content.endsWith('?')) {
         msg.reply('Fogalmam sincs!');
     } else if (msg.content.includes('Zolibá')) {
@@ -46,5 +48,19 @@ function gotMessage(msg) {
             valasz += n.textContent;
         });
         msg.reply(valasz);
+    } else if (msg.content.startsWith("!gif")) {
+        let tokens = msg.content.split(" ");
+        let keywords = "office";
+
+        if (tokens.length > 1) {
+            keywords = tokens.slice(1, tokens.length).join(" ");
+        }
+
+        let url = `https://g.tenor.com/v1/search?q=${keywords}&key=DA41YDC7R1RF&contentfilter=medium`
+        let response = await fetch(url);
+        let json = await response.json();
+        let index = Math.floor(Math.random() * json.results.length)
+
+        msg.channel.send(json.results[index].url);
     }
 }
