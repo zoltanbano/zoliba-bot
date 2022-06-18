@@ -6,6 +6,8 @@ const got = require('got');
 const jsdom = require("jsdom");
 const schedule = require("node-schedule");
 const fetch = require("node-fetch-commonjs");
+const { MessageEmbed } = require('discord.js');
+
 
 const { JSDOM } = jsdom;
 let dom;
@@ -56,11 +58,31 @@ async function gotMessage(msg) {
             keywords = tokens.slice(1, tokens.length).join(" ");
         }
 
-        let url = `https://g.tenor.com/v1/search?q=${keywords}&key=DA41YDC7R1RF&contentfilter=medium`
+        let url = `https://g.tenor.com/v1/search?q=${keywords}&key=DA41YDC7R1RF&contentfilter=medium`;
         let response = await fetch(url);
         let json = await response.json();
         let index = Math.floor(Math.random() * json.results.length)
 
         msg.channel.send(json.results[index].url);
+    } else if (msg.content.startsWith("!read")) {
+        let tokens2 = msg.content.split(" ");
+        let rawtext = "suspicious"
+
+        if (tokens2.length > 1) {
+            rawtext = tokens2.slice(1, tokens2.length).join(" ");
+        }
+
+        let url2 = `http://api.voicerss.org/?key=1f8c29fab2824262aa9ea6ceaa84d43b&hl=en-us&c=MP3&src=${rawtext}`;
+
+        let url3 = url2.replaceAll(" ", "%20");
+        
+        const exampleEmbed = {
+            color: 0x0099ff,
+            title: 'Az üzeneted felolvasása',
+            url: url3,
+        };
+
+        msg.channel.send({ embeds: [exampleEmbed] });
     }
+
 }
