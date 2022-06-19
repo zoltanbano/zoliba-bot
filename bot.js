@@ -8,12 +8,21 @@ const schedule = require("node-schedule");
 const fetch = require("node-fetch-commonjs");
 const { MessageEmbed } = require('discord.js');
 
+let discordkey = "";
+
+try {
+    const data = fs.readFileSync('../discordkey.txt', 'utf8');
+    discordkey = data;
+  } catch (err) {
+    console.error(err);
+  }
 
 const { JSDOM } = jsdom;
 let dom;
 const vgmUrl= 'http://www.bolyaigimnazium.elte.hu/index.php/szuloknek/program3/month.calendar';
 const client = new Discord.Client({intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES]});
-client.login('OTc1MDI0NTkxODQxOTQ3Njc4.GF3egj.Mo06l6h2c2Kb7Mvk5aJC8nJN1fiRuicNKPo5UM');
+
+client.login(discordkey);
 
 client.on('ready', readyDiscord);
 function readyDiscord() {
@@ -64,25 +73,6 @@ async function gotMessage(msg) {
         let index = Math.floor(Math.random() * json.results.length)
 
         msg.channel.send(json.results[index].url);
-    } else if (msg.content.startsWith("!read")) {
-        let tokens2 = msg.content.split(" ");
-        let rawtext = "suspicious"
-
-        if (tokens2.length > 1) {
-            rawtext = tokens2.slice(1, tokens2.length).join(" ");
-        }
-
-        let url2 = `http://api.voicerss.org/?key=1f8c29fab2824262aa9ea6ceaa84d43b&hl=en-us&c=MP3&src=${rawtext}`;
-
-        let url3 = url2.replaceAll(" ", "%20");
-        
-        const exampleEmbed = {
-            color: 0x0099ff,
-            title: 'Az üzeneted felolvasása',
-            url: url3,
-        };
-
-        msg.channel.send({ embeds: [exampleEmbed] });
-    }
+    } 
 
 }
