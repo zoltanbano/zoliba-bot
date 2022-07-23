@@ -9,10 +9,26 @@ const fetch = require("node-fetch-commonjs");
 const { MessageEmbed } = require('discord.js');
 
 let discordkey = "";
+let tenorkey = "";
+let voteid = "";
 
 try {
     const data = fs.readFileSync('../discordkey.txt', 'utf8');
     discordkey = data;
+  } catch (err) {
+    console.error(err);
+  }
+
+  try {
+    const data = fs.readFileSync('../tenorkey.txt', 'utf8');
+    tenorkey = data;
+  } catch (err) {
+    console.error(err);
+  }
+
+  try {
+    const data = fs.readFileSync('../voteid.txt', 'utf8');
+    voteid = data.toString();
   } catch (err) {
     console.error(err);
   }
@@ -38,13 +54,9 @@ got(vgmUrl).then(response => {
 client.on('message', gotMessage);
 
 async function gotMessage(msg) {
-    if (msg.content.endsWith('?')) {
-        msg.reply('Fogalmam sincs!');
-    } else if (msg.content.includes('Zolibá')) {
-        msg.reply('Jól van, gyerekek...');
-    } else if (msg.content === 'nextevent') {
+    if (msg.content === 'nextevent') {
         
-        let valasz = 'A következő esemény időpontja:\n'
+        let valasz = 'A következő esemény időpontja:\n';
 
         let datumok = dom.window.document.querySelectorAll('.mod_events_latest_first .mod_events_latest_date');
         datumok.forEach(n => {
@@ -67,12 +79,32 @@ async function gotMessage(msg) {
             keywords = tokens.slice(1, tokens.length).join(" ");
         }
 
-        let url = `https://g.tenor.com/v1/search?q=${keywords}&key=DA41YDC7R1RF&contentfilter=medium`;
+        let url = `https://g.tenor.com/v1/search?q=${keywords}&key=${tenorkey}&contentfilter=medium`;
         let response = await fetch(url);
         let json = await response.json();
-        let index = Math.floor(Math.random() * json.results.length)
+        let index = Math.floor(Math.random() * json.results.length);
 
         msg.channel.send(json.results[index].url);
-    } 
+    } else if (msg.content.startsWith("!votestart")) {
+        let kerdesszavak = msg.content.split(" ");
+        let kerdes = "Ez egy próba?";
 
+        if(kerdesszavak.length > 1) {
+            kerdes = kerdesszavak.slice(1, kerdesszavak.length).join(" ");
+        }
+        
+        let szavazas = kerdes + " IGEN: :white_check_mark: , NEM: :x:";
+
+        msg.delete();
+        
+        let vchannel = client.channels.cache.get(voteid);
+        vchannel.send(szavazas).then(function(message){
+            message.react("✅")
+            .then(message.react("❌"))
+        });
+    } else if (msg.content.includes('Zolibá')) {
+        msg.reply('Jól van, gyerekek...');
+    } else if (msg.content.endsWith('?')) {
+        msg.reply('Fogalmam sincs!');
+    }
 }
