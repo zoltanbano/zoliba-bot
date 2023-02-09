@@ -43,6 +43,8 @@ got(vgmUrl).then(response => {
     console.log(err);
 });
 
+let random = Math.floor(Math.random() *10) + 1;
+
 module.exports = async function (msg) {
     if (msg.content === 'nextevent') {
         
@@ -61,6 +63,18 @@ module.exports = async function (msg) {
             valasz += n.textContent;
         });
         msg.reply(valasz);
+    } else if (msg.content === '!start') {
+        msg.channel.send('Gondoltam egy számra 1 és 10 között. Találd ki, melyik az! Tippelni a !tipp utasítás után tudsz. (pl: !tipp 9) Hajrá!');
+    } else if (msg.content.startsWith('!tipp')) {
+        const guess = parseInt(msg.content.split(' ')[1]);
+        if (guess === random) {
+            msg.channel.send('Gtatulálok! Kitaláltad a számot! Jutalmad egy képzeletbeli vállonveregetés!');
+            random = Math.floor(Math.random() *10) + 1;
+        } else if (guess < random) {
+            msg.channel.send('Ennél nagyobb számra gondoltam.');
+        } else if (guess > random) {
+            msg.channel.send('Ennél kisebb számra gondoltam.');
+        }
     } else if (msg.content.startsWith("!gif")) {
         let tokens = msg.content.split(" ");
         let keywords = "office";
