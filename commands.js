@@ -68,7 +68,7 @@ module.exports = async function (msg) {
     } else if (msg.content.startsWith('!tipp')) {
         const guess = parseInt(msg.content.split(' ')[1]);
         if (guess === random) {
-            msg.channel.send('Gtatulálok! Kitaláltad a számot! Jutalmad egy képzeletbeli vállonveregetés!');
+            msg.channel.send('Gratulálok! Kitaláltad a számot! Jutalmad egy képzeletbeli vállonveregetés!');
             random = Math.floor(Math.random() *10) + 1;
         } else if (guess < random) {
             msg.channel.send('Ennél nagyobb számra gondoltam.');
