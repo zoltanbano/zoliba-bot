@@ -8,7 +8,7 @@ const { MessageEmbed } = require('discord.js');
 let discordkey = "";
 
 try {
-    const data = fs.readFileSync('../discordkey.txt', 'utf8');
+    const data = fs.readFileSync('./discordkey.txt', 'utf8');
     discordkey = data;
   } catch (err) {
     console.error(err);
