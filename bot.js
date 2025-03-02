@@ -1,20 +1,24 @@
 console.log('Beep beep!');
 
-const Discord = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const fs = require('fs');
-
-const { MessageEmbed } = require('discord.js');
 
 let discordkey = "";
 
 try {
     const data = fs.readFileSync('./discordkey.txt', 'utf8');
     discordkey = data;
-  } catch (err) {
+} catch (err) {
     console.error(err);
-  }
+}
 
-const client = new Discord.Client({intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES]});
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
+});
 
 client.login(discordkey);
 
@@ -25,4 +29,4 @@ function readyDiscord() {
 
 const commandHandler = require("./commands");
 
-client.on('message', commandHandler);
+client.on('messageCreate', commandHandler);

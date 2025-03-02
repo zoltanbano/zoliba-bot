@@ -1,35 +1,40 @@
-const fetch = require("node-fetch-commonjs");
+const fetch = require('node-fetch');
 const fs = require('fs');
-const got = require('got');
 const jsdom = require("jsdom");
-const Discord = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
 
 let tenorkey = "";
 let voteid = "";
 let discordkey = "";
 
 try {
-    const data = fs.readFileSync('../discordkey.txt', 'utf8');
+    const data = fs.readFileSync('./discordkey.txt', 'utf8');
     discordkey = data;
-  } catch (err) {
+} catch (err) {
     console.error(err);
 }
 
 try {
-    const data = fs.readFileSync('../tenorkey.txt', 'utf8');
+    const data = fs.readFileSync('./tenorkey.txt', 'utf8');
     tenorkey = data;
 } catch (err) {
     console.error(err);
 }
 
 try {
-    const data = fs.readFileSync('../voteid.txt', 'utf8');
+    const data = fs.readFileSync('./voteid.txt', 'utf8');
     voteid = data.toString();
 } catch (err) {
     console.error(err);
 }
 
-const client = new Discord.Client({intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES]});
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
+});
 
 client.login(discordkey);
 
@@ -37,8 +42,8 @@ const { JSDOM } = jsdom;
 let dom;
 const vgmUrl= 'http://www.bolyaigimnazium.elte.hu/index.php/szuloknek/program3/month.calendar';
 
-got(vgmUrl).then(response => {
-    dom = new JSDOM(response.body);
+fetch(vgmUrl).then(response => response.text()).then(body => {
+    dom = new JSDOM(body);
 }).catch(err => {
     console.log(err);
 });
