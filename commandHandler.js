@@ -1,6 +1,7 @@
 import numberGame from './commands/numberGame.js';
 import gifCommand from './commands/gif.js';
 import votingCommand from './commands/voting.js';
+import { playRPS } from './commands/rps.js';
 
 class CommandHandler {
     async handle(message, client) {
@@ -23,6 +24,12 @@ class CommandHandler {
         
         if (content.startsWith('!votestart')) {
             return votingCommand.execute(message, client);
+        }
+
+        if (content.startsWith('!rps')) {
+            const args = content.split(' ').slice(1);
+            await playRPS(message, args);
+            return;
         }
 
         // Handle question mark responses last

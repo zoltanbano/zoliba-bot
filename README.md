@@ -22,6 +22,11 @@ This is a simple Discord bot for my server that provides various interactive fea
 - Automatically adds ✅ and ❌ reactions for voting
 - Polls are posted in a dedicated voting channel
 
+### Rock Paper Scissors (!rps)
+- Play rock paper scissors with `!rps <kő/papír/olló>`
+- Bot randomly selects its choice
+- Displays the result with emojis
+
 ## Setup
 
 1. Clone the repository
