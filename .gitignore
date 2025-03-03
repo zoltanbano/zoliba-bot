@@ -1,6 +1,4 @@
 node_modules/
-discordkey.txt
-tenorkey.txt
-voteid.txt
 .env
+config/database.js
 

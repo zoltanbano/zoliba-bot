@@ -22,10 +22,12 @@ This is a simple Discord bot for my server that provides various interactive fea
 - Automatically adds ✅ and ❌ reactions for voting
 - Polls are posted in a dedicated voting channel
 
-### Rock Paper Scissors (!rps)
+### Rock Paper Scissors (!rps, !rpsscore, !rpsrank)
 - Play rock paper scissors with `!rps <kő/papír/olló>`
-- Bot randomly selects its choice
-- Displays the result with emojis
+- View personal statistics with `!rpsscore`
+- Check server leaderboard with `!rpsrank`
+- Persistent score tracking with MongoDB
+- Real-time statistics and rankings
 
 ## Setup
 
@@ -35,12 +37,16 @@ This is a simple Discord bot for my server that provides various interactive fea
    - Discord bot token
    - Voting channel ID
    - Tenor API key
-4. Start the bot: `npm start`
+4. Configure `config/database.js` with:
+   - MongoDB Atlas connection string
+   - Database name
+5. Start the bot: `npm start`
 
 ## Technologies
 
 - JavaScript/Node.js
 - Discord.js
+- MongoDB Atlas
 
 ## Contact
 

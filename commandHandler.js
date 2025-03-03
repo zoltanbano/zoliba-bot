@@ -2,6 +2,8 @@ import numberGame from './commands/numberGame.js';
 import gifCommand from './commands/gif.js';
 import votingCommand from './commands/voting.js';
 import { playRPS } from './commands/rps.js';
+import { showRPSScore } from './commands/rpsScore.js';
+import { showRPSLeaderboard } from './commands/rpsLeaderboard.js';
 
 class CommandHandler {
     async handle(message, client) {
@@ -26,9 +28,23 @@ class CommandHandler {
             return votingCommand.execute(message, client);
         }
 
-        if (content.startsWith('!rps')) {
+        if (content === '!rps') {
+            return message.reply('Használat: !rps <kő/papír/olló>');
+        }
+
+        if (content.startsWith('!rps ')) {
             const args = content.split(' ').slice(1);
             await playRPS(message, args);
+            return;
+        }
+
+        if (content === '!rpsscore') {
+            await showRPSScore(message);
+            return;
+        }
+
+        if (content === '!rpsrank') {
+            await showRPSLeaderboard(message);
             return;
         }
 
