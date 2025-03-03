@@ -3,7 +3,7 @@ const config = require('../config/config');
 class GifCommand {
     async execute(message) {
         const tokens = message.content.split(" ");
-        const keywords = tokens.length > 1 ? tokens.slice(1).join(" ") : "office";
+        const keywords = tokens.length > 1 ? tokens.slice(1).join(" ") : "the office us";
         
         try {
             const url = `https://g.tenor.com/v1/search?q=${encodeURIComponent(keywords)}&key=${config.tenor.apiKey}&contentfilter=medium`;
