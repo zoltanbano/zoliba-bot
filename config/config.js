@@ -1,6 +1,6 @@
-require('dotenv').config();
+import 'dotenv/config';
 
-module.exports = {
+export default {
     discord: {
         token: process.env.DISCORD_TOKEN,
         voteChannelId: process.env.VOTE_CHANNEL_ID

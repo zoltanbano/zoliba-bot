@@ -1,4 +1,4 @@
-const config = require('../config/config');
+import config from '../config/config.js';
 
 class GifCommand {
     async execute(message) {
@@ -23,4 +23,4 @@ class GifCommand {
     }
 }
 
-module.exports = new GifCommand();
+export default new GifCommand();

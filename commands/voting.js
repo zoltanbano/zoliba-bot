@@ -1,5 +1,5 @@
-const { ChannelType } = require('discord.js');
-const config = require('../config/config');
+import { ChannelType } from 'discord.js';
+import config from '../config/config.js';
 
 class VotingCommand {
     async execute(message, client) {
@@ -27,4 +27,4 @@ class VotingCommand {
     }
 }
 
-module.exports = new VotingCommand();
+export default new VotingCommand();

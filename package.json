@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "Discord bot with games and utilities",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },

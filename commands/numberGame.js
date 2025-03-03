@@ -27,4 +27,4 @@ class NumberGame {
     }
 }
 
-module.exports = new NumberGame();
+export default new NumberGame();

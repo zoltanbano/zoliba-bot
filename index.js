@@ -1,6 +1,6 @@
-const { Client, GatewayIntentBits } = require('discord.js');
-const config = require('./config/config');
-const commandHandler = require('./commandHandler');
+import { Client, GatewayIntentBits } from 'discord.js';
+import config from './config/config.js';
+import commandHandler from './commandHandler.js';
 
 const client = new Client({
     intents: [

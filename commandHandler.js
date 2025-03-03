@@ -1,6 +1,6 @@
-const numberGame = require('./commands/numberGame');
-const gifCommand = require('./commands/gif');
-const votingCommand = require('./commands/voting');
+import numberGame from './commands/numberGame.js';
+import gifCommand from './commands/gif.js';
+import votingCommand from './commands/voting.js';
 
 class CommandHandler {
     async handle(message, client) {
@@ -32,4 +32,4 @@ class CommandHandler {
     }
 }
 
-module.exports = new CommandHandler();
+export default new CommandHandler();
