@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   apps: [{
     name: "zoliba-bot",
     script: "index.js",
