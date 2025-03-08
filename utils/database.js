@@ -1,5 +1,7 @@
 import { MongoClient } from 'mongodb';
-import config from '../config/databaseConfig.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 let db = null;
 
@@ -7,8 +9,8 @@ export async function connectDB() {
     if (db) return db;
     
     try {
-        const client = await MongoClient.connect(config.mongodb.uri);
-        db = client.db(config.mongodb.dbName);
+        const client = await MongoClient.connect(process.env.MONGODB_URI);
+        db = client.db(process.env.MONGODB_DB_NAME);
         console.log('Connected to MongoDB Atlas');
         return db;
     } catch (err) {
