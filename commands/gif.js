@@ -1,5 +1,7 @@
 import config from '../config/config.js';
 
+const strings = config.language.strings.commands.gif;
+
 class GifCommand {
     async execute(message) {
         const tokens = message.content.split(" ");
@@ -11,14 +13,14 @@ class GifCommand {
             const json = await response.json();
             
             if (!json.results?.length) {
-                return message.channel.send('Nem találtam GIF-et a megadott kulcsszóra.');
+                return message.channel.send(`${strings.noResults}`);
             }
 
             const index = Math.floor(Math.random() * json.results.length);
             return message.channel.send(json.results[index].url);
         } catch (error) {
             console.error('Error fetching GIF:', error);
-            return message.channel.send('Hiba történt a GIF lekérése közben.');
+            return message.channel.send(`${strings.error}`);
         }
     }
 }

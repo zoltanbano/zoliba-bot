@@ -1,3 +1,7 @@
+import config from '../config/config.js';
+
+const strings = config.language.strings.commands.numberGame;
+
 class NumberGame {
     constructor() {
         this.random = this.generateNumber();
@@ -8,22 +12,22 @@ class NumberGame {
     }
 
     handleStart(message) {
-        return message.channel.send('Gondoltam egy számra 1 és 10 között. Találd ki, melyik az! Tippelni a !tipp utasítás után tudsz. (pl: !tipp 9) Hajrá!');
+        return message.channel.send(`${strings.start}`);
     }
 
     handleGuess(message) {
         const guess = parseInt(message.content.split(' ')[1]);
         
         if (isNaN(guess)) {
-            return message.channel.send('Kérlek adj meg egy számot!');
+            return message.channel.send(`${strings.enterNumber}`);
         }
 
         if (guess === this.random) {
             this.random = this.generateNumber();
-            return message.channel.send('Gratulálok! Kitaláltad a számot! Jutalmad egy képzeletbeli vállonveregetés!');
+            return message.channel.send(`${strings.victory}`);
         }
 
-        return message.channel.send(guess < this.random ? 'Ennél nagyobb számra gondoltam.' : 'Ennél kisebb számra gondoltam.');
+        return message.channel.send(guess < this.random ? `${strings.higher}` : `${strings.lower}`);
     }
 }
 

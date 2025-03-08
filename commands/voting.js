@@ -1,17 +1,19 @@
 import { ChannelType } from 'discord.js';
 import config from '../config/config.js';
 
+const strings = config.language.strings.commands.voting;
+
 class VotingCommand {
     async execute(message, client) {
         await message.delete();
         
-        const question = message.content.split(" ").slice(1).join(" ") || "Ez egy próba?";
-        const pollMessage = `${question}\nIGEN: :white_check_mark: , NEM: :x:`;
+        const question = message.content.split(" ").slice(1).join(" ") || `${strings.defaultQuestion}`;
+        const pollMessage = `${question}\n${strings.format}`;
         
         const channel = client.channels.cache.get(config.discord.voteChannelId);
         
         if (!channel || channel.type !== ChannelType.GuildText) {
-            return message.author.send('Nem találom a szavazó csatornát!');
+            return message.author.send(`${strings.channelError}`);
         }
 
         try {
@@ -22,7 +24,7 @@ class VotingCommand {
             ]);
         } catch (error) {
             console.error('Error creating vote:', error);
-            message.author.send('Hiba történt a szavazás létrehozása közben.');
+            message.author.send(`${strings.error}`);
         }
     }
 }

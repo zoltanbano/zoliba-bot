@@ -4,6 +4,10 @@ import votingCommand from './commands/voting.js';
 import { playRPS } from './commands/rps.js';
 import { showRPSScore } from './commands/rpsScore.js';
 import { showRPSLeaderboard } from './commands/rpsLeaderboard.js';
+import config from './config/config.js';
+
+const stringRps = config.language.strings.commands.rps;
+const stringGeneral = config.language.strings.commands.general;
 
 class CommandHandler {
     async handle(message, client) {
@@ -29,7 +33,7 @@ class CommandHandler {
         }
 
         if (content === '!rps') {
-            return message.reply('Használat: !rps <kő/papír/olló>');
+            return message.reply(`${stringRps.usage}`);
         }
 
         if (content.startsWith('!rps ')) {
@@ -50,7 +54,7 @@ class CommandHandler {
 
         // Handle question mark responses last
         if (message.content.endsWith('?')) {
-            return message.reply('Fogalmam sincs!');
+            return message.reply(`${stringGeneral.unknown}`);
         }
     }
 }

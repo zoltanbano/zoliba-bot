@@ -1,44 +1,39 @@
 import { rpsCollection } from '../utils/database.js';
+import config from '../config/config.js';
+
+const strings = config.language.strings.commands.rps;
 
 function getWinner(playerChoice, botChoice) {
     if (playerChoice === botChoice) {
-        return 'Döntetlen! 🤝';
+        return strings.draw;
     }
     
-    const winConditions = {
-        'kő': 'olló',
-        'papír': 'kő',
-        'olló': 'papír'
-    };
+    const winConditions = {};
+    winConditions[strings.choices[0]] = strings.choices[2]; // rock beats scissors
+    winConditions[strings.choices[1]] = strings.choices[0]; // paper beats rock
+    winConditions[strings.choices[2]] = strings.choices[1]; // scissors beats paper
     
-    return winConditions[playerChoice] === botChoice ? 
-        'Nyertél! 🎉' : 
-        'Vesztettél! 😎';
+    return winConditions[playerChoice] === botChoice ? strings.win : strings.loss;
 }
 
 export async function playRPS(message, args) {
-    const choices = ['kő', 'papír', 'olló'];
     const choice = args[0]?.toLowerCase();
 
-    if (!choices.includes(choice)) {
-        return message.reply('Használat: !rps <kő/papír/olló>');
+    if (!strings.choices.includes(choice)) {
+        return message.reply(strings.usage);
     }
 
-    const botChoice = choices[Math.floor(Math.random() * choices.length)];
+    const botChoice = strings.choices[Math.floor(Math.random() * strings.choices.length)];
     const result = getWinner(choice, botChoice);
     
-    // Simplified result mapping
     let scoreResult;
-    if (result.includes('Nyertél')) {
+    if (result === strings.win) {
         scoreResult = 'win';
-    } else if (result.includes('Döntetlen')) {
+    } else if (result === strings.draw) {
         scoreResult = 'draw';
     } else {
         scoreResult = 'loss';
     }
-
-    // Add debug logging
-    console.log(`Game Result - Player: ${choice}, Bot: ${botChoice}, Result: ${result}, Score: ${scoreResult}`);
     
     await rpsCollection.updateScore(
         message.author.id,
@@ -47,14 +42,15 @@ export async function playRPS(message, args) {
     );
 
     const userScore = await rpsCollection.getScore(message.author.id);
-    console.log('Updated Score:', userScore); // Debug log
 
     await message.reply(
-        `🎮 **RPS Eredmény**\n` +
-        `> Te: ${choice}\n` +
-        `> Én: ${botChoice}\n` +
+        `🎮 ${strings.stats.title}\n` +
+        `> ${strings.you}: ${choice}\n` +
+        `> ${strings.me}: ${botChoice}\n` +
         `> ${result}\n\n` +
-        `📊 **Statisztikád**\n` +
-        `Nyert: ${userScore.wins} | Döntetlen: ${userScore.draws} | Vesztett: ${userScore.losses}`
+        `📊 **${strings.stats.title}**\n` +
+        `${strings.stats.wins}: ${userScore.wins} | ` +
+        `${strings.stats.draws}: ${userScore.draws} | ` +
+        `${strings.stats.losses}: ${userScore.losses}`
     );
 }
